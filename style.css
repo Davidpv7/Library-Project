@@ -1,0 +1,22 @@
+.main-container {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+table {
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+thead {
+    background-color: rgb(178, 239, 219);
+}
+
+th, td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+
