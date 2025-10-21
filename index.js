@@ -1,4 +1,4 @@
-const myLibrary = [];
+let myLibrary = [];
 
 // Constructor function to create book
 
@@ -14,6 +14,12 @@ function Book(title, author, numberOfPages, read) {
         const readStatus = this.read ? "already read" : "not read yet";
         return `${this.title} by ${this.author}, ${this.numberOfPages} pages, ${readStatus}.`;
     }
+}
+
+// Prototype to toggle read or not
+
+Book.prototype.toggleRead = function() {
+    this.read = !this.read;
 }
 
 // Function to add book to array (library) 
@@ -45,7 +51,35 @@ function displayBooks(book) {
         const readCell = document.createElement('td');
         readCell.textContent = book.read ? 'Yes' : 'No';
 
-        row.append(titleCell, authorCell, numberOfPagesCell, readCell);
+        const buttonRemove = document.createElement('button');
+        buttonRemove.textContent = "-";
+        buttonRemove.classList.add('RemoveButton');
+        buttonRemove.dataset.id = book.id;
+
+        // Button to remove books
+
+        buttonRemove.addEventListener('click', (e) =>{
+            const bookId = e.target.dataset.id;
+
+            myLibrary = myLibrary.filter(book => book.id !== bookId);
+            e.target.parentElement.remove();
+        });
+
+        // Toggle read button
+
+        const buttonToggleRead = document.createElement('button');
+        buttonToggleRead.textContent = "Read Status";
+        buttonToggleRead.classList.add('ToggleButton');
+        buttonToggleRead.dataset.id = book.id;
+
+        buttonToggleRead.addEventListener('click', (e) => {
+            const bookId = e.target.dataset.id;
+            const bookToToggle = myLibrary.find(b => b.id === bookId);
+            bookToToggle.toggleRead();
+            displayBooks();
+        })
+
+        row.append(titleCell, authorCell, numberOfPagesCell, readCell, buttonRemove, buttonToggleRead);
 
         tableBody.appendChild(row);
     });
@@ -67,5 +101,48 @@ addBookTolibrary(harryPotter);
 
 displayBooks();
 
+// Dialog (pop up window) JS
 
-console.log(myLibrary);
+const modal = document.querySelector('.modal');
+const openModal = document.querySelector('.open-button');
+const closeModal = document.querySelector('.close-button');
+
+openModal.addEventListener('click', () => {
+    modal.showModal();
+})
+
+closeModal.addEventListener('click', () => {
+    modal.close();
+})
+
+
+// Create book with JS
+
+const addBookButton = document.querySelector('.submit-button');
+const cancelButton = document.querySelector('.cancel-button');
+const formInput = document.querySelector('.form');
+const titleInput = document.getElementById('title');
+const authorInput = document.getElementById('author');
+const pagesInput = document.getElementById('pages');
+const readInput = document.getElementById('read');
+
+formInput.addEventListener('submit', (e) => {
+
+e.preventDefault(); 
+
+const titleValue = titleInput.value;
+const authorValue = authorInput.value;
+const pagesValue = pagesInput.value;
+const readValue = readInput.value === 'yes';
+
+const createBook = new Book(titleValue, authorValue, pagesValue, readValue);
+
+addBookTolibrary(createBook);
+
+displayBooks();
+
+formInput.reset();
+
+modal.close();
+
+});
