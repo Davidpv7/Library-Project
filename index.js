@@ -1,8 +1,26 @@
 let myLibrary = [];
 
-// Constructor function to create book
+// Constructor function to create book - changed to class
 
-function Book(title, author, numberOfPages, read) {
+class Book {
+    constructor(title, author, numberOfPages, read){
+        this.id = crypto.randomUUID();
+
+        this.title = title;
+        this.author = author;
+        this.numberOfPages = numberOfPages;
+        this.read = read;
+    }
+
+    sayInfo(){
+       const readStatus = this.read ? "already read" : "not read yet";
+        return `${this.title} by ${this.author}, ${this.numberOfPages} pages, ${readStatus}.` 
+    }
+}
+
+/* Here is the old constructor functions below
+
+/* function Book(title, author, numberOfPages, read) {
     // Gives unique ID
     this.id = crypto.randomUUID();
 
@@ -14,7 +32,7 @@ function Book(title, author, numberOfPages, read) {
         const readStatus = this.read ? "already read" : "not read yet";
         return `${this.title} by ${this.author}, ${this.numberOfPages} pages, ${readStatus}.`;
     }
-}
+} */
 
 // Prototype to toggle read or not
 
