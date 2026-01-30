@@ -144,6 +144,30 @@ const authorInput = document.getElementById('author');
 const pagesInput = document.getElementById('pages');
 const readInput = document.getElementById('read');
 
+titleInput.addEventListener('input', (event) => {
+    if(!titleInput.checkValidity()){
+        titleInput.setCustomValidity('Please use a valid title!')
+    } else {
+        titleInput.setCustomValidity('')
+    };
+});
+
+authorInput.addEventListener('input', (event) => {
+    if(!authorInput.checkValidity()){
+        authorInput.setCustomValidity('Please use a valid author!')
+    } else {
+        authorInput.setCustomValidity('')
+    };
+});
+
+pagesInput.addEventListener('input', (event) => {
+    if(!pagesInput.checkValidity()){
+        pagesInput.setCustomValidity('Please use a valid number!')
+    } else {
+        pagesInput.setCustomValidity('')
+    };
+});
+
 formInput.addEventListener('submit', (e) => {
 
 e.preventDefault(); 
@@ -154,6 +178,7 @@ const pagesValue = pagesInput.value;
 const readValue = readInput.value === 'yes';
 
 const createBook = new Book(titleValue, authorValue, pagesValue, readValue);
+
 
 addBookTolibrary(createBook);
 
