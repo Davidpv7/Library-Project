@@ -144,28 +144,26 @@ const authorInput = document.getElementById('author');
 const pagesInput = document.getElementById('pages');
 const readInput = document.getElementById('read');
 
+function validateInput(input, message){
+    input.setCustomValidity('');
+
+    if(!input.checkValidity()){
+        input.setCustomValidity(message);
+        return false;
+    }
+    return true; 
+}
+
 titleInput.addEventListener('input', (event) => {
-    if(!titleInput.checkValidity()){
-        titleInput.setCustomValidity('Please use a valid title!')
-    } else {
-        titleInput.setCustomValidity('')
-    };
+    validateInput(titleInput, 'Please, use a valid title!')
 });
 
 authorInput.addEventListener('input', (event) => {
-    if(!authorInput.checkValidity()){
-        authorInput.setCustomValidity('Please use a valid author!')
-    } else {
-        authorInput.setCustomValidity('')
-    };
+    validateInput(authorInput, 'Please, use a valid author!')
 });
 
 pagesInput.addEventListener('input', (event) => {
-    if(!pagesInput.checkValidity()){
-        pagesInput.setCustomValidity('Please use a valid number!')
-    } else {
-        pagesInput.setCustomValidity('')
-    };
+    validateInput(pagesInput, 'Please, use a valid number!')
 });
 
 formInput.addEventListener('submit', (e) => {
@@ -176,6 +174,15 @@ const titleValue = titleInput.value;
 const authorValue = authorInput.value;
 const pagesValue = pagesInput.value;
 const readValue = readInput.value === 'yes';
+
+const isTitleValid = validateInput(titleInput, 'Please, use a valid title!');
+const isAuthorValid = validateInput(authorInput, 'Please, use a valid author!');
+const isPagesValid = validateInput(pagesInput, 'Please, use a valid number!');
+
+if(!isAuthorValid || !isTitleValid || !isPagesValid){
+    formInput.reportValidity();
+    return;
+};
 
 const createBook = new Book(titleValue, authorValue, pagesValue, readValue);
 
